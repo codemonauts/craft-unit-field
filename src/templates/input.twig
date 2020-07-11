@@ -1,0 +1,28 @@
+{% set isGroup = false %}
+
+<div class="field" id="{{ name }}-field">
+    <div class="input ltr">
+        {{ "Min"|t('unitfield') }}: <input class="text" type="text" size="5" name="{{ name }}[min]" value="{{ value.min }}" autocomplete="off">&nbsp;
+        {{ "Max"|t('unitfield') }}: <input class="text" type="text" size="5" name="{{ name }}[max]" value="{{ value.max }}" autocomplete="off">&nbsp;
+        {{ "Unit"|t('unitfield') }}:&nbsp;
+        <div class="select">
+            <select name="{{ name }}[unit]">
+                {% for unit in units %}
+                    {% if unit.group %}
+                        {% if isGroup %}
+                            </optgroup>
+                        {% else %}
+                            {% set isGroup = true %}
+                        {% endif %}
+                    <optgroup label="{{ unit.label|t('unitfield') }}">
+                    {% else %}
+                        <option value="{{ unit.value }}"{% if unit.value == value.unit %} selected{% endif %}>{{ unit.label|t('unitfield') }}</option>
+                    {% endif %}
+                {% endfor %}
+                {% if isGroup %}
+                    </optgroup>
+                {% endif %}
+            </select>
+        </div>
+    </div>
+</div>

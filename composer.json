@@ -1,0 +1,44 @@
+{
+  "name": "codemonauts/craft-unit-field",
+  "description": "Craft CMS plugin to add a field with a range of values and predefined units of measurement.",
+  "version": "1.0.0",
+  "type": "craft-plugin",
+  "keywords": [
+    "craft",
+    "cms",
+    "craftcms",
+    "craft-plugin",
+    "field",
+    "unit"
+  ],
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "codemonauts",
+      "homepage": "https://codemonauts.com"
+    }
+  ],
+  "support": {
+    "source": "https://github.com/codemonauts/craft-measurement-unit-field",
+    "docs": "https://github.com/codemonauts/craft-measurement-unit-field/blob/master/README.md",
+    "issues": "https://github.com/codemonauts/craft-measurement-unit-field/issues"
+  },
+  "require": {
+    "craftcms/cms": "^3.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "codemonauts\\unitfield\\": "src/"
+    }
+  },
+  "extra": {
+    "handle": "unitfield",
+    "class": "codemonauts\\unitfield\\UnitField",
+    "name": "Range Field with Unit of Measurement",
+    "description": "Adds a field with a range of values and predefined units of measurement.",
+    "changelogUrl": "https://github.com/codemonauts/craft-measurement-unit-field/blob/master/CHANGELOG.md",
+    "documentationUrl": "https://github.com/codemonauts/craft-measurement-unit-field/blob/master/README.md",
+    "hasCpSection": false,
+    "hasSettings": true
+  }
+}
