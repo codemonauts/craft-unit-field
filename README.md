@@ -32,7 +32,7 @@ In every field you can set a default unit of measurement and a Twig template to 
 
 ## Input
 
-The input field has two text inputs for the minimum and maximum values and a dropdown to choose the uit of measurement.
+The input field has two text inputs for the minimum and maximum value and a dropdown to choose the unit of measurement.
 
 ![Input](resources/input.png)
 
@@ -46,6 +46,6 @@ In templates you can access the minimum and maximum values as well as the unit v
 
 ## Translation
 
-Alle label can be translated. Use a translation file named `unitfield.php` in the language's translation directory. 
+All label can be translated. Use a translation file named `unitfield.php` in the language's translation directory. 
 
 With ❤ by [codemonauts](https://codemonauts.com)
