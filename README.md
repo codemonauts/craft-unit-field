@@ -6,7 +6,7 @@ This field allows you to enter two values as range and selecting a predefined un
 
 ## Requirements
 
- * Craft CMS >= 3.0.0
+ * Craft CMS >= 4.0.0
 
 ## Installation
 

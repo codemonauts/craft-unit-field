@@ -7,27 +7,26 @@ use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\base\PreviewableFieldInterface;
+use craft\helpers\Cp;
 use craft\helpers\Json;
-use Twig\Error\LoaderError;
-use Twig\Error\SyntaxError;
 use yii\db\Schema;
 
 class Unit extends Field implements PreviewableFieldInterface
 {
     /**
-     * @var mixed Default unit for the field.
+     * @var string|int Default unit for the field.
      */
-    public $defaultUnit;
+    public mixed $defaultUnit;
 
     /**
      * @var string Macro for rendering table attributes and static content.
      */
-    public $template = '';
+    public string $template = '';
 
     /**
      * @var null|array Value / Label assignments
      */
-    private $unitLabels;
+    private ?array $unitLabels = null;
 
     /**
      * @inheritdoc
@@ -56,7 +55,7 @@ class Unit extends Field implements PreviewableFieldInterface
     /**
      * @inheritdoc
      */
-    public function normalizeValue($value, ElementInterface $element = null)
+    public function normalizeValue($value, ElementInterface $element = null): mixed
     {
         if ($value === null) {
             return [
@@ -80,11 +79,10 @@ class Unit extends Field implements PreviewableFieldInterface
     /**
      * @inheritdoc
      */
-    public function getSettingsHtml()
+    public function getSettingsHtml(): ?string
     {
         $options = [];
-        $html = '';
-        $units = UnitField::getInstance()->getSettings()->units;
+        $units = UnitField::$settings->units;
 
         foreach ($units as $unit) {
             if ($unit['group']) {
@@ -94,24 +92,20 @@ class Unit extends Field implements PreviewableFieldInterface
             }
         }
 
-        $html .= Craft::$app->getView()->renderTemplateMacro('_includes/forms', 'selectField', [
-            [
-                'label' => Craft::t('unitfield', 'Default unit of measurement'),
-                'id' => 'defaultUnit',
-                'name' => 'defaultUnit',
-                'options' => $options,
-                'value' => $this->defaultUnit,
-            ],
+        $html = Cp::selectFieldHtml([
+            'label' => Craft::t('unitfield', 'Default unit of measurement'),
+            'id' => 'defaultUnit',
+            'name' => 'defaultUnit',
+            'options' => $options,
+            'value' => $this->defaultUnit,
         ]);
 
-        $html .= Craft::$app->getView()->renderTemplateMacro('_includes/forms', 'textField', [
-            [
-                'label' => Craft::t('unitfield', 'Optional template'),
-                'tip' => Craft::t('unitfield', 'Use a Twig template for rendering static representations and table views. Available variables: {{min}}, {{max}}, {{unitValue}} and {{unitLabel}}.'),
-                'id' => 'template',
-                'name' => 'template',
-                'value' => $this->template,
-            ],
+        $html .= Cp::textFieldHtml([
+            'label' => Craft::t('unitfield', 'Optional template'),
+            'tip' => Craft::t('unitfield', 'Use a Twig template for rendering static representations and table views. Available variables: {{min}}, {{max}}, {{unitValue}} and {{unitLabel}}.'),
+            'id' => 'template',
+            'name' => 'template',
+            'value' => $this->template,
         ]);
 
         return $html;
@@ -122,13 +116,11 @@ class Unit extends Field implements PreviewableFieldInterface
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
-        $setting = UnitField::getInstance()->getSettings();
-
         return Craft::$app->getView()->renderTemplate('unitfield/input',
             [
                 'name' => $this->handle,
                 'value' => $value,
-                'units' => $setting->units,
+                'units' => UnitField::$settings->units,
                 'field' => $this,
             ]);
     }
@@ -160,13 +152,13 @@ class Unit extends Field implements PreviewableFieldInterface
     /**
      * Returns the rendered field values using the Twig template.
      *
-     * @param array $value The values to use.
+     * @param array|null $value The values to use.
      *
      * @return string
-     * @throws LoaderError
-     * @throws SyntaxError
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\SyntaxError
      */
-    private function _renderString($value): string
+    private function _renderString(?array $value): string
     {
         if ($value === null) {
             return '';
@@ -191,10 +183,10 @@ class Unit extends Field implements PreviewableFieldInterface
      *
      * @return string
      */
-    private function _getUnitLabel($unitValue): string
+    private function _getUnitLabel(mixed $unitValue): string
     {
         if ($this->unitLabels === null) {
-            $units = UnitField::getInstance()->getSettings()->units;
+            $units = UnitField::$settings->units;
             $list = [];
 
             foreach ($units as $unit) {

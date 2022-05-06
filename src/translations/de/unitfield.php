@@ -11,4 +11,7 @@ return [
     'Add an unit' => 'Maßeinheit hinzufügen',
     'Define the available units of measurement and their values.' => 'Definiere die verfügbaren Maßeinheiten und deren Werte.',
     'Units of Measurement' => 'Maßeinheiten',
+    'Group?' => 'Gruppieren?',
+    'Label' => 'Beschriftung',
+    'Value' => 'Wert',
 ];
